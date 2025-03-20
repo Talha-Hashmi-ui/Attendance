@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            max-width: none;
+            margin-top: 20px;
+            overflow-x: auto;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .attendance-btn {
+            padding: 5px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .present {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .absent {
+            background-color: #f44336;
+            color: white;
+        }
+        .add-row-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .editable {
+            padding: 5px;
+            min-width: 100px;
+        }
+        .editable:focus {
+            outline: 2px solid #008CBA;
+            background-color: #fff;
+        }
+        /* Add dark mode styles */
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+            --primary-color: #3b82f6;
+        }
+
+        [data-theme="dark"] body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+        }
+
+        [data-theme="dark"] table {
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] th {
+            background-color: #333;
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] td {
+            border-color: var(--border-color);
+        }
+
+        [data-theme="dark"] .editable {
+            background-color: #404040;
+            color: white;
+        }
+
+        [data-theme="dark"] .attendance-btn:not(.present):not(.absent) {
+            background-color: #404040;
+            color: white;
+        }
+
+        [data-theme="dark"] .add-row-btn {
+            background-color: #3b82f6;
+            color: white;
+        }
+
+        .add-day-btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        [data-theme="dark"] .add-day-btn {
+            background-color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>Attendance System - <span id="className"></span></h2>
+        <div style="display: flex; gap: 10px;">
+            <button id="darkModeToggle" onclick="toggleDarkMode()" style="background: none; border: none; font-size: 24px; cursor: pointer;">🌓</button>
+            <button onclick="goBack()" style="padding: 10px 20px; background-color: #008CBA; color: white; border: none; border-radius: 4px; cursor: pointer;">
+                Back to Dashboard
+            </button>
+        </div>
+    </div>
+    <div class="table-container">
+        <table id="attendanceTable">
+            <thead>
+                <tr>
+                    <th>Roll No</th>
+                    <th>Name of Student</th>
+                    <th colspan="30">Attendance</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>1</th><th>2</th><th>3</th><th>4</th><th>5</th>
+                    <th>6</th><th>7</th><th>8</th><th>9</th><th>10</th>
+                    <th>11</th><th>12</th><th>13</th><th>14</th><th>15</th>
+                    <th>16</th><th>17</th><th>18</th><th>19</th><th>20</th>
+                    <th>21</th><th>22</th><th>23</th><th>24</th><th>25</th>
+                    <th>26</th><th>27</th><th>28</th><th>29</th><th>30</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td contenteditable="true" class="editable">ab</td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td contenteditable="true" class="editable">pqr</td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td contenteditable="true" class="editable">lmn</td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                    <td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <button class="add-row-btn" onclick="addRow()">Add Row</button>
+    <button class="add-day-btn" onclick="addDay()">Add Day</button>
+    <button class="add-row-btn" onclick="saveAttendanceForDate()">Save Attendance</button>
+    <button class="add-row-btn" onclick="updateAttendance()">Update Attendance</button>
+
+    <script>
+        let currentRollNo = 4;
+        const currentClass = localStorage.getItem('currentClass');
+        let currentDayCount = localStorage.getItem(`days_${currentClass}`) || 30;
+        const maxDays = 365; // Maximum allowed days
+        let savedAttendanceData = {};
+
+        // Update page title with class name
+        window.onload = function() {
+            document.getElementById('className').textContent = currentClass;
+            loadAttendanceData();
+            initializeTheme();
+        };
+
+        // Modified save function to store data per class
+        function saveAttendanceData() {
+            const tbody = document.querySelector('#attendanceTable tbody');
+            const data = [];
+            
+            tbody.querySelectorAll('tr').forEach(row => {
+                const studentData = {
+                    rollNo: row.querySelector('td:first-child').textContent,
+                    name: row.querySelector('td:nth-child(2)').textContent,
+                    attendance: []
+                };
+                
+                row.querySelectorAll('.attendance-btn').forEach(btn => {
+                    studentData.attendance.push({
+                        status: btn.textContent,
+                        class: btn.className
+                    });
+                });
+                
+                data.push(studentData);
+            });
+            
+            // Store data with class name as key
+            localStorage.setItem(`attendance_${currentClass}`, JSON.stringify(data));
+            localStorage.setItem(`rollNo_${currentClass}`, currentRollNo);
+            localStorage.setItem(`days_${currentClass}`, currentDayCount);
+        }
+
+        // Modified load function to load class-specific data
+        function loadAttendanceData() {
+            const savedData = localStorage.getItem(`attendance_${currentClass}`);
+            const savedRollNo = localStorage.getItem(`rollNo_${currentClass}`);
+            const savedDays = localStorage.getItem(`days_${currentClass}`);
+            
+            if (savedDays) currentDayCount = parseInt(savedDays);
+            
+            // Update day headers
+            updateDayHeaders();
+            
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                const tbody = document.querySelector('#attendanceTable tbody');
+                tbody.innerHTML = '';
+                
+                data.forEach(student => {
+                    const row = document.createElement('tr');
+                    let attendanceCells = '';
+                    
+                    // Create cells for all current days
+                    for (let i = 0; i < currentDayCount; i++) {
+                        const att = student.attendance[i] || { status: 'Click', class: '' };
+                        attendanceCells += `<td><button class="attendance-btn ${att.class}" onclick="toggleAttendance(this)">${att.status}</button></td>`;
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${student.rollNo}</td>
+                        <td contenteditable="true" class="editable">${student.name}</td>
+                        ${attendanceCells}
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+            
+            if (savedRollNo) {
+                currentRollNo = parseInt(savedRollNo);
+            }
+        }
+
+        function toggleAttendance(button) {
+            if (!button.classList.contains('present') && !button.classList.contains('absent')) {
+                button.classList.add('present');
+                button.textContent = 'P';
+            } else if (button.classList.contains('present')) {
+                button.classList.remove('present');
+                button.classList.add('absent');
+                button.textContent = 'A';
+            } else {
+                button.classList.remove('absent');
+                button.textContent = 'Click';
+            }
+            saveAttendanceData(); // Save after each change
+        }
+
+        function addRow() {
+            const tbody = document.querySelector('#attendanceTable tbody');
+            const newRow = document.createElement('tr');
+            let attendanceCells = '';
+            
+            for (let i = 0; i < currentDayCount; i++) {
+                attendanceCells += `<td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>`;
+            }
+            
+            newRow.innerHTML = `
+                <td>${currentRollNo}</td>
+                <td contenteditable="true" class="editable">Student ${currentRollNo}</td>
+                ${attendanceCells}
+            `;
+            
+            tbody.appendChild(newRow);
+            currentRollNo++;
+            saveAttendanceData();
+        }
+
+        // Save when name is edited
+        document.addEventListener('input', function(e) {
+            if (e.target.classList.contains('editable')) {
+                saveAttendanceData();
+            }
+        });
+
+        // Add back to dashboard function
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // Dark mode functions
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            localStorage.setItem('theme', isDark ? 'light' : 'dark');
+            updateToggleButton(!isDark);
+        }
+
+        function updateToggleButton(isDark) {
+            const toggle = document.getElementById('darkModeToggle');
+            toggle.textContent = isDark ? '🌞' : '🌓';
+        }
+
+        // Initialize theme
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateToggleButton(savedTheme === 'dark');
+        }
+
+        // Add new function to update day headers
+        function updateDayHeaders() {
+            const headerRow = document.querySelector('#attendanceTable thead tr:last-child');
+            headerRow.innerHTML = '<th></th><th></th>';
+            
+            for (let i = 1; i <= currentDayCount; i++) {
+                headerRow.innerHTML += `<th>${i}</th>`;
+            }
+        }
+
+        // Add new function to handle adding days
+        function addDay() {
+            if (currentDayCount < maxDays) {
+                currentDayCount++;
+                localStorage.setItem(`days_${currentClass}`, currentDayCount);
+                updateDayHeaders();
+                addDayToAllRows();
+                saveAttendanceData();
+            } else {
+                alert('Maximum days limit reached (365 days)');
+            }
+        }
+
+        // Add helper function to update existing rows
+        function addDayToAllRows() {
+            const rows = document.querySelectorAll('#attendanceTable tbody tr');
+            rows.forEach(row => {
+                row.innerHTML += '<td><button class="attendance-btn" onclick="toggleAttendance(this)">Click</button></td>';
+            });
+        }
+
+        function saveAttendanceForDate() {
+            const date = new Date().toISOString().split('T')[0];
+            const tbody = document.querySelector('#attendanceTable tbody');
+            const rows = tbody.querySelectorAll('tr');
+            const data = [];
+            const totalStudents = rows.length;
+            const attendanceByColumn = new Array(currentDayCount).fill(0);
+            
+            // First pass: count marked attendance (P or A) for each column
+            rows.forEach(row => {
+                const buttons = row.querySelectorAll('.attendance-btn');
+                buttons.forEach((btn, index) => {
+                    if (btn.textContent === 'P' || btn.textContent === 'A') {
+                        attendanceByColumn[index]++;
+                    }
+                });
+            });
+            
+            // Find columns that are fully filled (all students marked as P or A)
+            const completeColumns = attendanceByColumn.map((count, index) => {
+                return count === totalStudents ? index : -1;
+            }).filter(index => index !== -1);
+            
+            if (completeColumns.length === 0) {
+                alert('No columns have complete attendance marked for all students. Please mark all students as Present (P) or Absent (A) before saving.');
+                return;
+            }
+            
+            // Save data only for complete columns
+            rows.forEach(row => {
+                const studentData = {
+                    rollNo: row.querySelector('td:first-child').textContent,
+                    name: row.querySelector('td:nth-child(2)').textContent,
+                    attendance: []
+                };
+                
+                const buttons = row.querySelectorAll('.attendance-btn');
+                completeColumns.forEach(colIndex => {
+                    const btn = buttons[colIndex];
+                    if (btn.textContent === 'P' || btn.textContent === 'A') {
+                        studentData.attendance.push({
+                            status: btn.textContent,
+                            class: btn.className,
+                            day: colIndex + 1,
+                            date: date
+                        });
+                    }
+                });
+                
+                data.push(studentData);
+            });
+            
+            // Save only if we have valid attendance data
+            if (data.some(student => student.attendance.length > 0)) {
+                savedAttendanceData[date] = data;
+                localStorage.setItem(`attendance_${currentClass}_dates`, JSON.stringify(savedAttendanceData));
+                
+                // Hide columns that have been saved
+                const table = document.getElementById('attendanceTable');
+                const allRows = table.querySelectorAll('tr');
+                allRows.forEach(row => {
+                    const cells = row.querySelectorAll('td:nth-child(n+3), th:nth-child(n+3)');
+                    cells.forEach((cell, index) => {
+                        if (completeColumns.includes(index)) {
+                            cell.style.display = 'none';
+                        }
+                    });
+                });
+                
+                alert(`Attendance saved for ${date}. Saved and hidden ${completeColumns.length} complete columns.`);
+            } else {
+                alert('No valid attendance data to save. Please mark attendance as Present (P) or Absent (A).');
+            }
+        }
+
+        function updateAttendance() {
+            // Show all attendance columns
+            const table = document.getElementById('attendanceTable');
+            const rows = table.querySelectorAll('tr');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td:nth-child(n+3), th:nth-child(n+3)');
+                cells.forEach(cell => cell.style.display = '');
+            });
+            
+            // Load saved attendance data
+            const savedData = localStorage.getItem(`attendance_${currentClass}_dates`);
+            if (savedData) {
+                savedAttendanceData = JSON.parse(savedData);
+            }
+        }
+    </script>
+</body>
+</html>
